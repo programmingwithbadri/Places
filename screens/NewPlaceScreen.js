@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   ScrollView,
   View,
@@ -9,12 +10,19 @@ import {
 } from 'react-native';
 
 import Colors from '../constants/Colors';
+import * as placesActions from '../store/places-actions';
 
 const NewPlaceScreen = props => {
+  const dispatch = useDispatch();
   const [titleValue, setTitleValue] = useState('');
 
   const titleChangeHandler = text => {
     setTitleValue(text);
+  };
+
+  const savePlaceHandler = () => {
+    dispatch(placesActions.addPlace(titleValue));
+    props.navigation.goBack();
   };
 
   return (
@@ -26,7 +34,11 @@ const NewPlaceScreen = props => {
           onChangeText={titleChangeHandler}
           value={titleValue}
         />
-        <Button title="Save Place" color={Colors.primary} onPress={() => { }} />
+        <Button
+          title="Save Place"
+          color={Colors.primary}
+          onPress={savePlaceHandler}
+        />
       </View>
     </ScrollView>
   );
